@@ -54,6 +54,9 @@ TODO
 - i18n
 - user admin
 - living documentation (https://leanpub.com/livingdocumentation)
+- articles
+    - setup sbt-buildinfo (with git hash)
+    - setup reactivemongo
 
 ## Credits
 

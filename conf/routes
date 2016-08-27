@@ -3,8 +3,11 @@
 # ~~~~
 
 GET     /                           com.flashjob.controllers.Application.index
-GET     /test                       com.flashjob.controllers.Application.test
+
+GET     /jobs                       com.flashjob.controllers.JobOffers.list
+
 GET     /status                     com.flashjob.controllers.Application.status
+
 #GET     /                           controllers.HomeController.index
 #GET     /count                      controllers.CountController.count
 #GET     /message                    controllers.AsyncController.message

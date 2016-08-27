@@ -1,8 +1,13 @@
 package com.flashjob
 
+import com.flashjob.controllers.{ JobOffers, Application }
+import com.flashjob.infrastructure.db.JobOfferRepositoryImpl
 import com.flashjob.common.{ Contexts, Conf }
+import infrastructure.Mongo
 import play.api._
 import play.api.ApplicationLoader.Context
+import play.api.i18n.I18nComponents
+import play.modules.reactivemongo.{ DefaultReactiveMongoApi, ReactiveMongoComponents }
 import router.Routes
 
 class CustomApplicationLoader extends ApplicationLoader {
@@ -15,13 +20,19 @@ class CustomApplicationLoader extends ApplicationLoader {
 }
 
 class CustomComponents(context: Context)
-    extends BuiltInComponentsFromContext(context) {
+    extends BuiltInComponentsFromContext(context)
+    with ReactiveMongoComponents
+    with I18nComponents {
   val conf = Conf(configuration)
   val ctx = Contexts(actorSystem)
+  val reactiveMongoApi = new DefaultReactiveMongoApi(configuration, applicationLifecycle)
+  val db = Mongo(ctx, reactiveMongoApi)
+  val jobOfferRepository = JobOfferRepositoryImpl(conf, db)
 
-  val applicationController = new controllers.Application(ctx)
+  val applicationController = new Application(ctx, db)
+  val jobOffersController = new JobOffers(ctx, jobOfferRepository)
   val assets = new _root_.controllers.Assets(httpErrorHandler)
-  val router = new Routes(httpErrorHandler, applicationController, assets)
+  val router = new Routes(httpErrorHandler, applicationController, jobOffersController, assets)
 }
 
 /*
