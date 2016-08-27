@@ -20,8 +20,9 @@ import filters.ExampleFilter
  */
 @Singleton
 class Filters @Inject() (
-  env: Environment,
-  exampleFilter: ExampleFilter) extends HttpFilters {
+    env: Environment,
+    exampleFilter: ExampleFilter
+) extends HttpFilters {
 
   override val filters = {
     // Use the example filter if we're running development mode. If
