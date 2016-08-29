@@ -1,49 +1,50 @@
 package global
 
+import scala.language.implicitConversions
 import play.api.data.FormError
 import play.api.data.format.Formatter
 import play.api.data.validation.{ Constraint, Invalid, Valid, ValidationError }
 import play.api.libs.json._
 import play.api.mvc.{ PathBindable, QueryStringBindable }
 
-/*
+/**
  * TypedString is a helper to create types around String
  *
- * The purpose of this class is to allow to easily transform String into typed object to improve the type safety of your play app via Value Classes.
- * It creates all the necessary bindings to work with router, form, json...
+ * The purpose of this class is to allow to easily transform String into typed object to improve the type safety of your scala code.
+ * It creates all the necessary bindings to work with play : router, form, json...
  *
- * Ex:
- *
- * case class Title(val _value: String) extends TypedString(_value = _value)
+ * {{{
+ * case class Title(value: String) extends TypedString(value)
  * object Title extends TypedStringHelper[Title] {
- *   def from(str: String): Either[String, Title] = Right(Title(str))
+ *   def from(value: String): Either[String, Title] = Right(Title(value))
  * }
+ * }}}
  */
-
-class TypedString(_value: String) {
-  def value: String = _value
-  def isEmpty: Boolean = this.value.isEmpty
-  override def toString: String = this.value
+class TypedString(val underlying: String, requireTest: => Boolean = true, requireMessage: String = "") {
+  require(requireTest, requireMessage)
+  override def toString: String = underlying
 }
 trait TypedStringHelper[T <: TypedString] {
-  def from(str: String): Either[String, T]
+  def from(value: String): Either[String, T]
   protected val buildErrKey = "error.wrongFormat"
-  protected val buildErrMsg = "Wrong format"
+  protected val buildErrMsg = "Wrong TypedString format"
+
+  implicit def extract(t: T): String = t.underlying
 
   // read/write value to JSON
   implicit val jsonFormat = Format(new Reads[T] {
-    override def reads(json: JsValue): JsResult[T] = json.validate[String].flatMap(id => from(id) match {
-      case Right(uuid) => JsSuccess(uuid)
+    override def reads(json: JsValue): JsResult[T] = json.validate[String].flatMap(value => from(value) match {
+      case Right(res) => JsSuccess(res)
       case Left(err) => JsError(Seq((JsPath(List()), Seq(ValidationError(err)))))
     })
   }, new Writes[T] {
-    override def writes(t: T): JsValue = JsString(t.value)
+    override def writes(t: T): JsValue = JsString(t.underlying)
   })
 
   // read/write value from URL path
   implicit val pathBinder = new PathBindable[T] {
     override def bind(key: String, value: String): Either[String, T] = from(value)
-    override def unbind(key: String, value: T): String = value.value
+    override def unbind(key: String, value: T): String = value.underlying
   }
 
   // read/write value from URL query string
@@ -54,19 +55,19 @@ trait TypedStringHelper[T <: TypedString] {
         case _ => Left(buildErrMsg)
       }
     }
-    override def unbind(key: String, value: T): String = value.value
+    override def unbind(key: String, value: T): String = value.underlying
+  }
+
+  // read value from Play Form
+  implicit val formMapping = new Formatter[T] {
+    override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], T] = data.get(key).map { value => from(value).left.map(msg => Seq(FormError(key, msg, Nil))) }.getOrElse(Left(Seq(FormError(key, buildErrKey, Nil))))
+    override def unbind(key: String, value: T): Map[String, String] = Map(key -> value.underlying)
   }
 
   // convert to a Javascript String
   /*implicit val javascriptBinder = new JavascriptLitteral[T] {
     def to(t: T): String = t.value
   }*/
-
-  // read value from Play Form
-  implicit val formMapping = new Formatter[T] {
-    override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], T] = data.get(key).map { value => from(value).left.map(msg => Seq(FormError(key, msg, Nil))) }.getOrElse(Left(Seq(FormError(key, buildErrKey, Nil))))
-    override def unbind(key: String, value: T): Map[String, String] = Map(key -> value.value)
-  }
 }
 object TypedStringConstraints {
   /*
@@ -76,6 +77,6 @@ object TypedStringConstraints {
    * 	- https://github.com/playframework/playframework/blob/master/framework/src/play/src/main/scala/play/api/data/Forms.scala
    */
   def nonEmpty: Constraint[TypedString] = Constraint[TypedString]("constraint.required") { o =>
-    if (o == null) Invalid(ValidationError("error.required")) else if (o.value.trim.isEmpty) Invalid(ValidationError("error.required")) else Valid
+    if (o == null) Invalid(ValidationError("error.required")) else if (o.underlying.trim.isEmpty) Invalid(ValidationError("error.required")) else Valid
   }
 }

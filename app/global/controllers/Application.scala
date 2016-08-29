@@ -1,4 +1,4 @@
-package com.flashjob.controllers
+package global.controllers
 
 import com.flashjob.common.Contexts
 import com.flashjob.infrastructure.Mongo
@@ -9,13 +9,9 @@ case class Application(ctx: Contexts, db: Mongo) extends Controller {
   import ctx._
   import com.flashjob.common.Contexts.ctrlToEC
 
-  def index = Action {
-    Ok("index")
-  }
-
   def status = Action.async {
     for {
-      dbStatus <- db.status()
+      dbStatus <- db.pingStatus()
     } yield {
       Ok(Json.obj(
         "build" -> Json.obj(

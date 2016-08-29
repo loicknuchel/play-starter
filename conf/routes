@@ -2,11 +2,9 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET     /                           com.flashjob.controllers.Application.index
+GET     /                           com.flashjob.controllers.JobOffers.list
 
-GET     /jobs                       com.flashjob.controllers.JobOffers.list
-
-GET     /status                     com.flashjob.controllers.Application.status
+GET     /status                     global.controllers.Application.status
 
 #GET     /                           controllers.HomeController.index
 #GET     /count                      controllers.CountController.count

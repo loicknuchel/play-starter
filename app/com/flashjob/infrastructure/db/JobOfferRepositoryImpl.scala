@@ -1,7 +1,7 @@
 package com.flashjob.infrastructure.db
 
 import com.flashjob.common.Conf
-import com.flashjob.domain.models.{User, JobOffer}
+import com.flashjob.domain.models.JobOffer
 import com.flashjob.domain.repositories.JobOfferRepository
 import com.flashjob.infrastructure.Mongo
 import play.api.libs.json.{ Json, JsObject }

@@ -1,7 +1,8 @@
 package com.flashjob.common
 
-import scala.concurrent.ExecutionContext
 import akka.actor.ActorSystem
+
+import scala.concurrent.ExecutionContext
 
 case class Contexts(val actorSystem: ActorSystem) {
   import Contexts._

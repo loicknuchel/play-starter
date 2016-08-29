@@ -1,6 +1,6 @@
 package com.flashjob.common
 
-import com.flashjob.domain.models.{ User, JobOffer }
+import com.flashjob.domain.models.{ JobOffer, User }
 import global.GenericRepository
 import play.api.Configuration
 

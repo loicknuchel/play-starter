@@ -8,9 +8,9 @@ case class User(
   name: String
 )
 object User {
-  case class Id(_value: String) extends TypedId(_value)
+  case class Id(value: String) extends TypedId(value)
   object Id extends TypedIdHelper[Id] {
-    def from(str: String): Either[String, Id] = TypedId.from(str, "User.Id").right.map(Id(_))
+    def from(value: String): Either[String, Id] = TypedId.from(value, "User.Id").right.map(Id(_))
     def generate(): Id = Id(TypedId.generate())
   }
 

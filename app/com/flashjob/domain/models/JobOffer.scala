@@ -9,9 +9,9 @@ case class JobOffer(
   title: Title
 )
 object JobOffer {
-  case class Id(_value: String) extends TypedId(_value)
+  case class Id(value: String) extends TypedId(value)
   object Id extends TypedIdHelper[Id] {
-    def from(str: String): Either[String, Id] = TypedId.from(str, "JobOffer.Id").right.map(Id(_))
+    def from(value: String): Either[String, Id] = TypedId.from(value, "JobOffer.Id").right.map(Id(_))
     def generate(): Id = Id(TypedId.generate())
   }
 

@@ -8,7 +8,6 @@ import play.api.libs.json._
 import play.modules.reactivemongo.ReactiveMongoApi
 import reactivemongo.api.commands.{ MultiBulkWriteResult, UpdateWriteResult, WriteResult, Command }
 import reactivemongo.api.commands.bson.BSONCountCommand.{ Count, CountResult }
-import reactivemongo.api.commands.bson.BSONCountCommandImplicits._
 import reactivemongo.api.{ BSONSerializationPack, ReadPreference }
 import reactivemongo.bson.BSONDocument
 import reactivemongo.play.json._
@@ -27,7 +26,7 @@ case class Mongo(ctx: Contexts, reactiveMongoApi: ReactiveMongoApi) {
       runner.apply(db, runner.rawCommand(BSONDocument("ping" -> 1))).one[BSONDocument]
     }
   }
-  def status(): Future[Status] = {
+  def pingStatus(): Future[Status] = {
     ping().map(MongoHelper.pingStatus).recover {
       case e: Throwable => Status(500, e.toString)
     }
