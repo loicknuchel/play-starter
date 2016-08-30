@@ -39,6 +39,16 @@ TODO
 
 TODO
 
+## Documentation
+
+Api documentation is generated using [apiblueprint](https://apiblueprint.org/) standard and [aglio](https://github.com/danielgtaylor/aglio) generator.
+
+To re-generate it you should install `sudo npm install -g aglio` and run :
+
+```
+aglio -i docs/api.apib -o public/docs/api.html --theme-variables streak --theme-template triple --theme-full-width
+```
+
 ## Architecture
 
 ### Scala code

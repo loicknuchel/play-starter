@@ -8,11 +8,11 @@ import global.models.Page
 import play.api.mvc.Controller
 
 case class JobOffers(ctx: Contexts, jobOfferRepository: JobOfferRepository) extends Controller {
-  import com.flashjob.common.Contexts.ctrlToEC
   import ctx._
+  import com.flashjob.common.Contexts.ctrlToEC
 
-  def find(page: Page.Index, pageSize: Page.Size, q: Option[String], sort: Option[String], include: Option[String]) =
-    ApiHelper.findAction(jobOfferRepository)(page, pageSize, q, sort, include)
+  def find(page: Int, pageSize: Int, q: Option[String], sort: Option[String], include: Option[String]) =
+    ApiHelper.findAction(jobOfferRepository)(Page.Index(page), Page.Size(pageSize), q, sort, include)
   def get(id: JobOffer.Id) = ApiHelper.getAction(jobOfferRepository)(id)
   def create = ApiHelper.createAction(jobOfferRepository)
   def fullUpdate(id: JobOffer.Id) = ApiHelper.fullUpdateAction(jobOfferRepository)(id)

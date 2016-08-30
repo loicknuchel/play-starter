@@ -51,12 +51,7 @@ trait TypedIntHelper[T <: TypedInt] {
 
   // read/write value from URL query string
   implicit val queryBinder = new QueryStringBindable[T] {
-    override def bind(key: String, params: Map[String, Seq[String]]): Option[Either[String, T]] = params.get(key).map { values =>
-      values match {
-        case v :: vs => fromString(v)
-        case _ => Left(buildErrMsg)
-      }
-    }
+    override def bind(key: String, params: Map[String, Seq[String]]): Option[Either[String, T]] = params.get(key).map { _.headOption.map(v => fromString(v)).getOrElse(Left(buildErrMsg)) }
     override def unbind(key: String, value: T): String = value.underlying.toString
   }
 

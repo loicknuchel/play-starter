@@ -1,7 +1,6 @@
 package com.flashjob
 
-import global.controllers.Application
-import com.flashjob.controllers.JobOffers
+import com.flashjob.controllers.{ Application, JobOffers }
 import com.flashjob.infrastructure.db.JobOfferRepositoryImpl
 import com.flashjob.common.{ Contexts, Conf }
 import infrastructure.Mongo
@@ -37,10 +36,11 @@ class MyComponents(context: ApplicationLoader.Context)
   val mongo = Mongo(ctx, reactiveMongoApi)
   val jobOfferRepository = JobOfferRepositoryImpl(conf, ctx, mongo)
 
+  val applicationController = new Application(ctx)
   val jobOffersController = new JobOffers(ctx, jobOfferRepository)
-  val applicationController = new Application(ctx, mongo)
+  val globalApplicationController = new _root_.global.controllers.Application(ctx, mongo)
   val assets = new _root_.controllers.Assets(httpErrorHandler)
-  val router: Router = new Routes(httpErrorHandler, jobOffersController, applicationController, assets)
+  val router: Router = new Routes(httpErrorHandler, applicationController, jobOffersController, globalApplicationController, assets)
 
   override lazy val injector = {
     new SimpleInjector(NewInstanceInjector) +

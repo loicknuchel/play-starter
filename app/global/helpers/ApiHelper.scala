@@ -178,6 +178,6 @@ object ApiHelper {
     req.queryString.get("pretty").flatMap(_.find(_ == "false")).map { _ =>
       status(data)
     }.getOrElse {
-      status(Json.prettyPrint(data)).withHeaders("Content-Type" -> "application/json") // pretty print to be more developper friendly
+      status(Json.prettyPrint(data)).as("application/json") // pretty print to be more developper friendly
     }
 }

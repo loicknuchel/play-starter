@@ -1,6 +1,6 @@
-package global.helpers
+package helpers
 
-import com.github.simplyscala.{ MongodProps, MongoEmbedDatabase }
+import com.github.simplyscala.{ MongoEmbedDatabase, MongodProps }
 import de.flapdoodle.embed.mongo.distribution.Version
 import org.scalatest.BeforeAndAfterAll
 import org.scalatestplus.play.PlaySpec

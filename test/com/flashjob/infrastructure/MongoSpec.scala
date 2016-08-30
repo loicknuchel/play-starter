@@ -1,8 +1,10 @@
 package com.flashjob.infrastructure
 
-import global.helpers.{ BaseMongoSpec, AsyncHelpers }
+import helpers.{ OneAppPerSuiteWithMyComponents, BaseMongoSpec, AsyncHelpers }
+import org.scalatestplus.play.PlaySpec
 
-class MongoSpec extends BaseMongoSpec {
+// class MongoSpec extends BaseMongoSpec { // TODO : not used until I can configure EmbedMongo on a specific port
+class MongoSpec extends PlaySpec with OneAppPerSuiteWithMyComponents {
   "Mongo" should {
     "ping database" in {
       AsyncHelpers.whenReady(components.mongo.pingStatus()) { ping =>

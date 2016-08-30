@@ -30,12 +30,10 @@ object Page {
     def lastItem(size: Page.Size): Int = Page.lastItemIndex(this, size, size.value)
   }
   object Index extends TypedIntHelper[Index] {
-    val default: Index = Index(0)
     def from(value: Int): Either[String, Index] = Right(Index(value))
   }
   case class Size(value: Int) extends TypedInt(value, value >= 0, s"Size should be >= 0 ($value)")
   object Size extends TypedIntHelper[Size] {
-    val default: Size = Size(20)
     def from(value: Int): Either[String, Size] = Right(Size(value))
   }
   case class Count(value: Int) extends TypedInt(value, value >= 0, s"Count should be >= 0 ($value)")

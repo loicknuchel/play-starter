@@ -1,8 +1,8 @@
-package global.helpers
+package helpers
 
 import com.flashjob.MyComponents
-import org.scalatest.{ TestData, Suite }
-import org.scalatestplus.play.{ OneServerPerTest, OneAppPerSuite, OneAppPerTest, OneServerPerSuite }
+import org.scalatest.{ Suite, TestData }
+import org.scalatestplus.play.{ OneAppPerSuite, OneAppPerTest, OneServerPerSuite, OneServerPerTest }
 import play.api._
 
 /** From https://github.com/playframework/play-scala-compile-di-with-tests */

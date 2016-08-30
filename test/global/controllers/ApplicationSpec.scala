@@ -1,6 +1,6 @@
 package global.controllers
 
-import global.helpers.OneAppPerSuiteWithMyComponents
+import helpers.OneAppPerSuiteWithMyComponents
 import org.scalatestplus.play.PlaySpec
 import play.api.libs.json.JsValue
 import play.api.test._

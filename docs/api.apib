@@ -1,0 +1,111 @@
+FORMAT: 1A
+HOST: http://localhost:9000/api/v1
+
+# Flash Job
+
+Flash Job is a simple tool allowing to post Jobs for a short time. This is the documentation of its API.
+
+
+
+
+## Group Entry Point
+
+This resource does not have any attributes. Instead it offers the initial API affordances in the form of the links in the JSON body.
+
+## Entry Point [/]
+
+### Retrieve the Entry Point [GET]
+
++ Response 200 (application/json)
+
+        {
+            "resources" : [ {
+                "JobOffer" : "http://localhost:9000/api/v1/jobOffers"
+            } ]
+        }
+
+
+
+
+## Group JobOffer
+
+Resources related to job offers in the API.
+
+## JobOffer Collection [/jobOffers]
+
+### List All JobOffers [GET]
+
++ Response 200 (application/json)
+
+        {
+            "data" : (array[JobOffer]),
+            "page" : {
+                "index" : 0,
+                "size" : 20,
+                "count" : 1
+            },
+            "metas" : {
+                "exec" : 20
+            }
+        }
+
+### Create a JobOffer [POST]
+
+You may create your own job offers using this action. It takes a JSON object containing a title.
+
++ title (string) - The job offer title
+
++ Request (application/json)
+
+        {
+            "title": "Super job offer :)"
+        }
+
++ Response 201 (application/json)
+
+        {
+            "data": {
+                "id": "d9c90217-01b4-4e6d-a21b-bf910cf5778b",
+                "title": "Super job offer :)"
+            },
+            "metas": {
+                "exec": 17
+            }
+        }
+
+
+
+## JobOffer [/jobOffers/{id}]
+
+A JobOffer object has the following attributes:
+
++ id
++ title
+
++ Parameters
+    + id: `d9c90217-01b4-4e6d-a21b-bf910cf5778b` (required, uuid) - ID of the JobOffer in form of an UUID
+
+### JobOffer Detail [GET]
+
++ Response 200 (application/json)
+
+        {
+            "data": {
+                "id": "d9c90217-01b4-4e6d-a21b-bf910cf5778b",
+                "title": "JobOffer title"
+            },
+            "metas": {
+                "exec": 17
+            }
+        }
+
+
+
+
+
+
+## Data Structures
+
+### JobOffer
++ id: d9c90217-01b4-4e6d-a21b-bf910cf5778b (required)
++ title: Super job offer :) (required)

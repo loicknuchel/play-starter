@@ -1,9 +1,9 @@
-package global.helpers
+package helpers
 
-import scala.concurrent.{ Await, Future }
 import scala.concurrent.duration.{ Duration, DurationInt }
-import scala.util.{ Failure, Try, Success }
+import scala.concurrent.{ Await, Future }
 import scala.language.postfixOps
+import scala.util.{ Failure, Success, Try }
 
 object AsyncHelpers {
   def whenReady[T](result: Future[T], timeout: Duration = 10 second)(expectation: T => Unit) = {
