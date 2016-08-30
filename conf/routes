@@ -2,7 +2,12 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET     /                           com.flashjob.controllers.JobOffers.list
+GET     /api/v1/jobOffers           com.flashjob.controllers.JobOffers.find(page: Page.Index ?= Page.Index.default, pageSize: Page.Size ?= Page.Size.default, q: Option[String], sort: Option[String], include: Option[String])
+POST    /api/v1/jobOffers           com.flashjob.controllers.JobOffers.create
+GET     /api/v1/jobOffers/:id       com.flashjob.controllers.JobOffers.get(id: JobOffer.Id)
+PUT     /api/v1/jobOffers/:id       com.flashjob.controllers.JobOffers.fullUpdate(id: JobOffer.Id)
+PATCH   /api/v1/jobOffers/:id       com.flashjob.controllers.JobOffers.update(id: JobOffer.Id)
+DELETE  /api/v1/jobOffers/:id       com.flashjob.controllers.JobOffers.delete(id: JobOffer.Id)
 
 GET     /status                     global.controllers.Application.status
 

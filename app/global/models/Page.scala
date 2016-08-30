@@ -14,8 +14,8 @@ import scala.concurrent.{ ExecutionContext, Future }
  * @param count the total number of elements for all pages.
  */
 case class Page[+T](items: Seq[T], index: Page.Index, size: Page.Size, count: Page.Count) {
-  require(items.length <= size.value, s"a page can't have more items (${items.length}) than its size ($size)")
-  require(lastItemIndex < count.value, s"the last item index ($lastItemIndex) can't be greather than total count ($count)")
+  require(items.length <= size.value, s"a page can't contain more items (${items.length}) than its size ($size)")
+  require(lastItemIndex < count.value, s"the last item index ($lastItemIndex) must be strictly lower than the total count ($count)")
   lazy val prev: Option[Page.Index] = Page.prev(index)
   lazy val next: Option[Page.Index] = Page.next(index, size, count)
   lazy val indexMax: Page.Index = Page.maxPageIndex(size, count)
@@ -25,12 +25,17 @@ case class Page[+T](items: Seq[T], index: Page.Index, size: Page.Size, count: Pa
   def mapAsync[U](f: (T) => Future[U])(implicit ec: ExecutionContext): Future[Page[U]] = Future.sequence(items.map(f)).map(newItems => this.copy(items = newItems))
 }
 object Page {
-  case class Index(value: Int) extends TypedInt(value, value >= 0, s"Index should be >= 0 ($value)")
+  case class Index(value: Int) extends TypedInt(value, value >= 0, s"Index should be >= 0 ($value)") {
+    def firstItem(size: Page.Size): Int = Page.firstItemIndex(this, size)
+    def lastItem(size: Page.Size): Int = Page.lastItemIndex(this, size, size.value)
+  }
   object Index extends TypedIntHelper[Index] {
+    val default: Index = Index(0)
     def from(value: Int): Either[String, Index] = Right(Index(value))
   }
   case class Size(value: Int) extends TypedInt(value, value >= 0, s"Size should be >= 0 ($value)")
   object Size extends TypedIntHelper[Size] {
+    val default: Size = Size(20)
     def from(value: Int): Either[String, Size] = Right(Size(value))
   }
   case class Count(value: Int) extends TypedInt(value, value >= 0, s"Count should be >= 0 ($value)")

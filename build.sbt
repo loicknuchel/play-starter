@@ -14,6 +14,11 @@ libraryDependencies ++= Seq(
   "com.github.simplyscala" %% "scalatest-embedmongo" % "0.2.2" % Test
 )
 
+play.sbt.routes.RoutesKeys.routesImport ++= Seq(
+  "global.models.Page",
+  "com.flashjob.domain.models.User",
+  "com.flashjob.domain.models.JobOffer")
+
 lazy val root =
   (project in file("."))
     .enablePlugins(PlayScala)

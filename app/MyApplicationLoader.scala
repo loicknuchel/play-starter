@@ -35,7 +35,7 @@ class MyComponents(context: ApplicationLoader.Context)
   val ctx = Contexts(actorSystem)
   val reactiveMongoApi: ReactiveMongoApi = new DefaultReactiveMongoApi(configuration, applicationLifecycle)
   val mongo = Mongo(ctx, reactiveMongoApi)
-  val jobOfferRepository = JobOfferRepositoryImpl(conf, mongo)
+  val jobOfferRepository = JobOfferRepositoryImpl(conf, ctx, mongo)
 
   val jobOffersController = new JobOffers(ctx, jobOfferRepository)
   val applicationController = new Application(ctx, mongo)

@@ -15,5 +15,17 @@ object JobOffer {
     def generate(): Id = Id(TypedId.generate())
   }
 
+  def from(e: JobOfferNoId): JobOffer = JobOffer(
+    JobOffer.Id.generate(),
+    e.title
+  )
+
   implicit val format = Json.format[JobOffer]
+}
+
+case class JobOfferNoId(
+  title: Title
+)
+object JobOfferNoId {
+  implicit val format = Json.format[JobOfferNoId]
 }
