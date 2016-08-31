@@ -23,7 +23,7 @@ case class JobOfferRepositoryImpl(conf: Conf, ctx: Contexts, db: Mongo) extends 
     val toCreate = JobOffer.from(elt)
     collection.create(toCreate).map { res => (res, toCreate.id) }
   }
-  def fullUpdate(id: JobOffer.Id, elt: JobOffer): Future[WriteResult] = collection.fullUpdate(Json.obj("id" -> id), elt)
-  def update(id: JobOffer.Id, patch: JsObject): Future[WriteResult] = collection.update(Json.obj("id" -> id), patch)
+  def fullUpdate(id: JobOffer.Id, elt: JobOffer): Future[WriteResult] = collection.fullUpdate(Json.obj("id" -> id), elt.copy(id = id))
+  def update(id: JobOffer.Id, patch: JsObject): Future[WriteResult] = collection.update(Json.obj("id" -> id), Json.obj("$set" -> (patch - "id")))
   def delete(id: JobOffer.Id): Future[WriteResult] = collection.delete(Json.obj("id" -> id))
 }

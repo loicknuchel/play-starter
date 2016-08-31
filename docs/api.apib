@@ -5,10 +5,7 @@ HOST: http://localhost:9000/api/v1
 
 Flash Job is a simple tool allowing to post Jobs for a short time. This is the documentation of its API.
 
-
-
-
-## Group Entry Point
+# Group Entry Point
 
 This resource does not have any attributes. Instead it offers the initial API affordances in the form of the links in the JSON body.
 
@@ -18,94 +15,139 @@ This resource does not have any attributes. Instead it offers the initial API af
 
 + Response 200 (application/json)
 
-        {
-            "resources" : [ {
-                "JobOffer" : "http://localhost:9000/api/v1/jobOffers"
-            } ]
-        }
+    + Body
 
+            {
+              "documentation" : "/assets/docs/api.html",
+              "resources" : [ {
+                "JobOffer" : "/api/v1/jobOffers"
+              } ]
+            }
 
-
-
-## Group JobOffer
+# Group JobOffers
 
 Resources related to job offers in the API.
 
-## JobOffer Collection [/jobOffers]
+## JobOffer list [/jobOffers]
 
-### List All JobOffers [GET]
+### Get JobOffers [GET /jobOffers{?body}]
 
 + Response 200 (application/json)
 
-        {
-            "data" : (array[JobOffer]),
-            "page" : {
+    + Body
+
+            {
+              "data" : [ {
+                "id" : "d9c90217-01b4-4e6d-a21b-bf910cf5778b",
+                "title" : "hello"
+              } ],
+              "page" : {
                 "index" : 0,
                 "size" : 20,
                 "count" : 1
-            },
-            "metas" : {
-                "exec" : 20
+              },
+              "metas" : {
+                "exec" : 1097
+              }
             }
-        }
 
-### Create a JobOffer [POST]
-
-You may create your own job offers using this action. It takes a JSON object containing a title.
-
-+ title (string) - The job offer title
+### Create new JobOffer [POST]
 
 + Request (application/json)
 
-        {
-            "title": "Super job offer :)"
-        }
+    + Body
+
+            {
+              "title" : "My JobOffer"
+            }
 
 + Response 201 (application/json)
 
-        {
-            "data": {
-                "id": "d9c90217-01b4-4e6d-a21b-bf910cf5778b",
-                "title": "Super job offer :)"
-            },
-            "metas": {
-                "exec": 17
+    + Body
+
+            {
+              "data" : {
+                "id" : "c72509af-d689-4442-99a6-958d0e692da2",
+                "title" : "My JobOffer"
+              },
+              "metas" : {
+                "exec" : 167
+              }
             }
-        }
-
-
 
 ## JobOffer [/jobOffers/{id}]
 
-A JobOffer object has the following attributes:
-
-+ id
-+ title
-
 + Parameters
-    + id: `d9c90217-01b4-4e6d-a21b-bf910cf5778b` (required, uuid) - ID of the JobOffer in form of an UUID
 
-### JobOffer Detail [GET]
+    + id: `c72509af-d689-4442-99a6-958d0e692da2` (uuid, required) - JobOffer ID
+
+### Get JobOffer [GET]
 
 + Response 200 (application/json)
 
-        {
-            "data": {
-                "id": "d9c90217-01b4-4e6d-a21b-bf910cf5778b",
-                "title": "JobOffer title"
-            },
-            "metas": {
-                "exec": 17
+    + Body
+
+            {
+              "data" : {
+                "id" : "c72509af-d689-4442-99a6-958d0e692da2",
+                "title" : "My JobOffer"
+              },
+              "metas" : {
+                "exec" : 5
+              }
             }
-        }
+
+### Full update a JobOffer [PUT]
+
++ Request (application/json)
+
+    + Body
+
+            {
+              "id" : "c72509af-d689-4442-99a6-958d0e692da2",
+              "title" : "updated title"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+              "data" : {
+                "id" : "c72509af-d689-4442-99a6-958d0e692da2",
+                "title" : "updated title"
+              },
+              "metas" : {
+                "exec" : 28
+              }
+            }
+
+### Partial update a JobOffer [PATCH]
+
++ Request (application/json)
+
+    + Body
+
+            {
+              "title" : "new title"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+              "data" : {
+                "id" : "c72509af-d689-4442-99a6-958d0e692da2",
+                "title" : "new title"
+              },
+              "metas" : {
+                "exec" : 13
+              }
+            }
+
+### Delete a JobOffer [DELETE]
+
++ Response 204
 
 
-
-
-
-
-## Data Structures
-
-### JobOffer
-+ id: d9c90217-01b4-4e6d-a21b-bf910cf5778b (required)
-+ title: Super job offer :) (required)

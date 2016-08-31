@@ -11,8 +11,9 @@ case class Application(ctx: Contexts) extends Controller {
 
   def index = Action { implicit req: Request[AnyContent] =>
     ApiHelper.writeResult(Results.Ok, Json.obj(
+      "documentation" -> controllers.routes.Assets.versioned("docs/api.html").url,
       "resources" -> Json.arr(
-        Json.obj("JobOffer" -> com.flashjob.controllers.routes.JobOffers.find().absoluteURL)
+        Json.obj("JobOffer" -> com.flashjob.controllers.routes.JobOffers.find().url)
       )
     ))
   }

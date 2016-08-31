@@ -48,7 +48,7 @@ object ApiHelper {
   // TODO : must secure update request (req.body)
   def updateAction[T, Id, TNoId](repo: GenericRepository[T, Id, TNoId])(id: Id)(implicit ec: ExecutionContext, w: OWrites[T]) = Action.async(parse.json) { implicit req: Request[JsValue] =>
     ApiHelper.update(id)(
-      repo.update(id, Json.obj("$set" -> req.body)),
+      repo.update(id, req.body.as[JsObject]),
       repo.get
     )
   }

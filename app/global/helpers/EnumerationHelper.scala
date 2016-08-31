@@ -1,6 +1,7 @@
 package global.helpers
 
 import play.api.libs.json._
+import scala.language.implicitConversions
 
 object EnumerationHelper {
   def enumReads[E <: Enumeration](enum: E): Reads[E#Value] = new Reads[E#Value] {
