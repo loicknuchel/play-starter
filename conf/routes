@@ -15,9 +15,5 @@ DELETE  /api/v1/jobOffers/$id<.{36}>    com.flashjob.controllers.api.JobOffers.d
 #GET     /lang                           global.controllers.Application.changeLang(lang: String)
 GET     /status                         global.controllers.Application.status
 
-#GET     /                               controllers.HomeController.index
-#GET     /count                          controllers.CountController.count
-#GET     /message                        controllers.AsyncController.message
-
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                   controllers.Assets.versioned(path="/public", file: Asset)
