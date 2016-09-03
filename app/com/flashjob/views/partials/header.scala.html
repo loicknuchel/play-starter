@@ -1,0 +1,32 @@
+@import com.flashjob.controllers._
+@(menu: String)(implicit message: MessagesApi, lang: Lang, langs: Seq[Lang])
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">@message("header.mobile.toggle")</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="@html.routes.Application.index">@message("app.name")</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li @if(menu == "home"){class="active"}><a href="@html.routes.Application.index">@message("header.menu.home")</a></li>
+                <li @if(menu == "api"){class="active"}><a href="@api.routes.Application.index">@message("header.menu.api")</a></li>
+                <li @if(menu == "docs"){class="active"}><a href="@routes.Assets.versioned("docs/api.html")">@message("header.menu.docs")</a></li>
+            </ul>
+            @* <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@message("common.lang") <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                    @langs.map { l =>
+                        <li @if(l.satisfies(lang)){class="active"}><a href="@global.controllers.routes.Application.changeLang(l.language)">@message("common.lang."+l.language)</a></li>
+                    }
+                    </ul>
+                </li>
+            </ul> *@
+        </div>
+    </div>
+</nav>

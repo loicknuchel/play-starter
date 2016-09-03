@@ -1,0 +1,18 @@
+app.name=Flash Job
+
+common.lang=Languages
+common.lang.en=English
+common.lang.fr=Français
+
+header.mobile.toggle=Toggle navigation
+header.menu.home=Home
+header.menu.api=Api
+header.menu.docs=Docs
+
+pages.index.title=Index
+pages.index.alert.header=Heads up !
+pages.index.alert.p1=This application is under active delopment to implement all best practices.
+pages.index.alert.p2=Feel free to contribute ;)
+pages.index.header=Bootstrap starter template
+pages.index.p1=Use this document as a way to quickly start any new project.
+pages.index.p2=All you get is this text and a mostly barebones HTML document.

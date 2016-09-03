@@ -38,10 +38,10 @@ class MyComponents(context: ApplicationLoader.Context)
 
   val router: Router = new Routes(
     httpErrorHandler,
-    new html.Application(ctx),
+    new html.Application(conf, ctx)(messagesApi),
     new api.Application(ctx),
     new api.JobOffers(ctx, jobOfferRepository),
-    new _root_.global.controllers.Application(ctx, mongo),
+    new _root_.global.controllers.Application(conf, ctx, mongo)(messagesApi),
     new _root_.controllers.Assets(httpErrorHandler)
   )
 

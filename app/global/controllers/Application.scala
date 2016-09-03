@@ -1,13 +1,14 @@
 package global.controllers
 
-import com.flashjob.common.Contexts
+import com.flashjob.common.{ Conf, Contexts }
 import com.flashjob.infrastructure.Mongo
 import global.helpers.ApiHelper
 import org.joda.time.DateTime
+import play.api.i18n.{ Lang, MessagesApi }
 import play.api.libs.json.Json
 import play.api.mvc.{ AnyContent, Request, Results, Action, Controller }
 
-case class Application(ctx: Contexts, db: Mongo) extends Controller {
+case class Application(conf: Conf, ctx: Contexts, db: Mongo)(implicit messageApi: MessagesApi) extends Controller {
   import ctx._
   import com.flashjob.common.Contexts.ctrlToEC
 
@@ -33,4 +34,11 @@ case class Application(ctx: Contexts, db: Mongo) extends Controller {
       ))
     }
   }
+
+  // TODO : don't work, can't save user preference :(
+  /*def changeLang(lang: String) = Action { implicit req: Request[AnyContent] =>
+    val chosen = new Lang(lang)
+    messageApi.preferred(conf.App.langs.filter(_.satisfies(chosen)))
+    Redirect(req.headers.get("Referer").orElse(req.headers.get("Host")).get)
+  }*/
 }

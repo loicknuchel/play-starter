@@ -12,6 +12,7 @@ PUT     /api/v1/jobOffers/$id<.{36}>    com.flashjob.controllers.api.JobOffers.f
 PATCH   /api/v1/jobOffers/$id<.{36}>    com.flashjob.controllers.api.JobOffers.update(id: JobOffer.Id)
 DELETE  /api/v1/jobOffers/$id<.{36}>    com.flashjob.controllers.api.JobOffers.delete(id: JobOffer.Id)
 
+#GET     /lang                           global.controllers.Application.changeLang(lang: String)
 GET     /status                         global.controllers.Application.status
 
 #GET     /                               controllers.HomeController.index
