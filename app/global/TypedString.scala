@@ -46,11 +46,19 @@ trait TypedStringHelper[T <: TypedString] {
     override def bind(key: String, value: String): Either[String, T] = from(value)
     override def unbind(key: String, value: T): String = value.underlying
   }
+  implicit val pathBinderOpt = new PathBindable[Option[T]] {
+    override def bind(key: String, value: String): Either[String, Option[T]] = from(value).right.map(Some(_))
+    override def unbind(key: String, value: Option[T]): String = value.map(_.underlying).getOrElse("")
+  }
 
   // read/write value from URL query string
   implicit val queryBinder = new QueryStringBindable[T] {
     override def bind(key: String, params: Map[String, Seq[String]]): Option[Either[String, T]] = params.get(key).map { _.headOption.map(v => from(v)).getOrElse(Left(buildErrMsg)) }
     override def unbind(key: String, value: T): String = value.underlying
+  }
+  implicit val queryBinderOpt = new QueryStringBindable[Option[T]] {
+    override def bind(key: String, params: Map[String, Seq[String]]): Option[Either[String, Option[T]]] = params.get(key).map { _.headOption.map(v => from(v).right.map(Some(_))).getOrElse(Left(buildErrMsg)) }
+    override def unbind(key: String, value: Option[T]): String = value.map(_.underlying).getOrElse("")
   }
 
   // read value from Play Form

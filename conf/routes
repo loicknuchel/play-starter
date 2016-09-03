@@ -2,19 +2,19 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET     /api/v1                     com.flashjob.controllers.Application.index
-GET     /api/v1/jobOffers           com.flashjob.controllers.JobOffers.find(page: Int ?= 0, pageSize: Int ?= 20, q: Option[String] ?= None, sort: Option[String] ?= None, include: Option[String] ?= None)
-POST    /api/v1/jobOffers           com.flashjob.controllers.JobOffers.create
-GET     /api/v1/jobOffers/:id       com.flashjob.controllers.JobOffers.get(id: JobOffer.Id)
-PUT     /api/v1/jobOffers/:id       com.flashjob.controllers.JobOffers.fullUpdate(id: JobOffer.Id)
-PATCH   /api/v1/jobOffers/:id       com.flashjob.controllers.JobOffers.update(id: JobOffer.Id)
-DELETE  /api/v1/jobOffers/:id       com.flashjob.controllers.JobOffers.delete(id: JobOffer.Id)
+GET     /api/v1                         com.flashjob.controllers.Application.index
+GET     /api/v1/jobOffers               com.flashjob.controllers.JobOffers.find(page: Int ?= 0, pageSize: Int ?= 20, q: Option[String] ?= None, sort: Option[String] ?= None, include: Option[String] ?= None)
+POST    /api/v1/jobOffers               com.flashjob.controllers.JobOffers.create
+GET     /api/v1/jobOffers/$id<.{36}>    com.flashjob.controllers.JobOffers.get(id: JobOffer.Id)
+PUT     /api/v1/jobOffers/$id<.{36}>    com.flashjob.controllers.JobOffers.fullUpdate(id: JobOffer.Id)
+PATCH   /api/v1/jobOffers/$id<.{36}>    com.flashjob.controllers.JobOffers.update(id: JobOffer.Id)
+DELETE  /api/v1/jobOffers/$id<.{36}>    com.flashjob.controllers.JobOffers.delete(id: JobOffer.Id)
 
-GET     /status                     global.controllers.Application.status
+GET     /status                         global.controllers.Application.status
 
-#GET     /                           controllers.HomeController.index
-#GET     /count                      controllers.CountController.count
-#GET     /message                    controllers.AsyncController.message
+#GET     /                               controllers.HomeController.index
+#GET     /count                          controllers.CountController.count
+#GET     /message                        controllers.AsyncController.message
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET     /assets/*file                   controllers.Assets.versioned(path="/public", file: Asset)

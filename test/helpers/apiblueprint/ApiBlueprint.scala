@@ -40,9 +40,9 @@ object ApiBlueprint {
     def writes(nesting: String = ""): String
   }
   case class GroupSection(
-     name: String,
-     description: Option[String] = None,
-     resources: List[ResourceSection]) extends ContentSection {
+    name: String,
+    description: Option[String] = None,
+    resources: List[ResourceSection]) extends ContentSection {
     def writes(unused: String = ""): String = {
       val descriptionF = description.map(_ + "\n\n").getOrElse("")
       s"$hash Group $name\n\n$descriptionF" + resources.map(_.writes(hash)).mkString
@@ -140,7 +140,7 @@ object ApiBlueprint {
     def writes(nesting: String = ""): String = s"$nesting$bullet Headers\n\n" + headers.map { case (key, value) => s"$nesting$tab$tab$key: $value\n" } + "\n"
   }
   case class AttributesSection(properties: List[MSON.Property]) {
-    def writes(nesting: String = ""): String = s"$nesting$bullet Attributes\n" + properties.map(_.toMSON(nesting+tab)) + "\n"
+    def writes(nesting: String = ""): String = s"$nesting$bullet Attributes\n" + properties.map(_.toMSON(nesting + tab)) + "\n"
   }
   case class BodySection(json: JsValue) {
     def writes(nesting: String = ""): String = s"$nesting$bullet Body\n\n" + formatJson(json, nesting) + "\n"
@@ -155,7 +155,8 @@ object ApiBlueprint {
     def writes(): String = s"$hash Data Structures\n\n" + structures.map(_.toMSON(hash)) + "\n"
   }
 
-  private def formatJson(json: JsValue, nesting: String): String = Json.prettyPrint(json).split("\n").map(nesting + tab + tab + _).mkString("\n")
+  private def formatJson(json: JsValue, nesting: String): String =
+    Json.prettyPrint(json).split("\n").map(nesting + tab + tab + _).mkString("\n")
 
   object MSON {
     case class Structure(
@@ -205,11 +206,7 @@ object ApiBlueprint {
       description: Option[String] = None) extends Property {
       def toMSON(nesting: String = ""): String = {
         val exampleF = example.map(": `" + _ + "`").getOrElse("")
-        val requiredF = if (required) {
-          ", required"
-        } else {
-          ""
-        }
+        val requiredF = if (required) { ", required" } else { "" }
         val valueTypeF = valueType.map(" (" + _ + s"$requiredF)").getOrElse("")
         val descriptionF = description.map(" - " + _).getOrElse("")
         s"$nesting$bullet $name$exampleF$valueTypeF$descriptionF\n"

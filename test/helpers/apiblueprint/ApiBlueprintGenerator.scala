@@ -5,10 +5,10 @@ import java.io.PrintWriter
 import helpers.OneAppPerSuiteWithMyComponents
 import ApiBlueprint._
 import org.scalatestplus.play.PlaySpec
-import play.api.libs.json.{JsString, JsObject, JsValue, Json}
-import play.api.mvc.{Result, Headers, AnyContentAsEmpty}
+import play.api.libs.json.{ JsString, JsObject, JsValue, Json }
+import play.api.mvc.{ Result, Headers, AnyContentAsEmpty }
 import play.api.test.Helpers._
-import play.api.test.{FakeHeaders, FakeRequest}
+import play.api.test.{ FakeHeaders, FakeRequest }
 import scala.concurrent.Future
 import scala.sys.process._
 import scala.language.postfixOps
@@ -21,7 +21,7 @@ class ApiBlueprintGenerator extends PlaySpec with OneAppPerSuiteWithMyComponents
   val baseApi = "/api/v1"
 
   "Generator" should {
-    "generate blueprint API doc" in {
+    "generate blueprint API doc" ignore {
       val metadata = MetadataSection(host + baseApi)
       val overview = OverviewSection("Flash Job", Some("Flash Job is a simple tool allowing to post Jobs for a short time. This is the documentation of its API."))
 
@@ -34,8 +34,7 @@ class ApiBlueprintGenerator extends PlaySpec with OneAppPerSuiteWithMyComponents
       val jobOfferSection = groupSectionCRUD("/jobOffers", "JobOffer", "JobOffers", Some("Resources related to job offers in the API."),
         createPayload = Json.obj("title" -> "My JobOffer"),
         fullUpdateModifier = (created: JsObject) => created + ("title" -> JsString("updated title")),
-        partialUpdatePayload = Json.obj("title" -> "new title")
-      )
+        partialUpdatePayload = Json.obj("title" -> "new title"))
 
       val doc = Document(Some(metadata), Some(overview), sections = List(
         entryPointSection,
@@ -52,22 +51,22 @@ class ApiBlueprintGenerator extends PlaySpec with OneAppPerSuiteWithMyComponents
   }
 
   def groupSectionCRUD(endpoint: String, name: String, plural: String, description: Option[String] = None, createPayload: JsObject, fullUpdateModifier: JsObject => JsObject, partialUpdatePayload: JsObject): GroupSection = {
-    val findAction = actionSection("Get "+plural, GET, endpoint, resource = Some(endpoint+"{?body}"))
-    val createAction = actionSection("Create new "+name, POST, endpoint, body = Some(createPayload))
+    val findAction = actionSection("Get " + plural, GET, endpoint, resource = Some(endpoint + "{?body}"))
+    val createAction = actionSection("Create new " + name, POST, endpoint, body = Some(createPayload))
     val created = createAction.responses.headOption.flatMap(_.body).map { body => (body.json \ "data").as[JsObject] }.get
     val createdId = (created \ "id").as[String]
     val endpointDetail = endpoint + "/" + createdId
-    val getAction = actionSection("Get "+name, GET, endpointDetail)
-    val fullUpdateAction = actionSection("Full update a "+name, PUT, endpointDetail, body = Some(fullUpdateModifier(created)))
-    val partialUpdateAction = actionSection("Partial update a "+name, PATCH, endpointDetail, body = Some(partialUpdatePayload))
-    val deleteAction = actionSection("Delete a "+name, DELETE, endpointDetail)
+    val getAction = actionSection("Get " + name, GET, endpointDetail)
+    val fullUpdateAction = actionSection("Full update a " + name, PUT, endpointDetail, body = Some(fullUpdateModifier(created)))
+    val partialUpdateAction = actionSection("Partial update a " + name, PATCH, endpointDetail, body = Some(partialUpdatePayload))
+    val deleteAction = actionSection("Delete a " + name, DELETE, endpointDetail)
     GroupSection(plural, description, resources = List(
-      ResourceSection(name+" list", endpoint, actions = List(
+      ResourceSection(name + " list", endpoint, actions = List(
         findAction,
         createAction
       )),
-      ResourceSection(name, endpoint+"/{id}", parameters = Some(ParametersSection(parameters = List(
-        MSON.SimpleProperty(name = "id", example = Some(createdId), valueType = Some("uuid"), required = true, description = Some(name+" ID"))
+      ResourceSection(name, endpoint + "/{id}", parameters = Some(ParametersSection(parameters = List(
+        MSON.SimpleProperty(name = "id", example = Some(createdId), valueType = Some("uuid"), required = true, description = Some(name + " ID"))
       ))), actions = List(
         getAction,
         fullUpdateAction,
@@ -90,15 +89,16 @@ class ApiBlueprintGenerator extends PlaySpec with OneAppPerSuiteWithMyComponents
       ).flatten,
       responses = List(
         ResponseSection(httpCode = Some(responseStatus), mediaType = responseContentType, body = responseBody.map(BodySection))
-      ))
+      )
+    )
   }
   def makeCall(method: String, endpoint: String): (Option[String], Future[Result]) = {
-    val request = FakeRequest(method, baseApi+endpoint, FakeHeaders(), AnyContentAsEmpty)
+    val request = FakeRequest(method, baseApi + endpoint, FakeHeaders(), AnyContentAsEmpty)
     val response = route(app, request).get
     (None, response)
   }
   def makeCall(method: String, endpoint: String, body: JsValue): (Option[String], Future[Result]) = {
-    val request = FakeRequest(method, baseApi+endpoint, FakeHeaders(), body)
+    val request = FakeRequest(method, baseApi + endpoint, FakeHeaders(), body)
     val response = route(app, request).get
     (Some("application/json"), response)
   }

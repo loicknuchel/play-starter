@@ -24,21 +24,6 @@ lazy val root =
     .enablePlugins(PlayScala)
     .enablePlugins(BuildInfoPlugin)
     .settings(
-      buildInfoKeys := Seq[BuildInfoKey](
-        name, version, scalaVersion, sbtVersion,
-        "gitHash" -> new java.lang.Object(){
-          override def toString(): String = {
-            try {
-              val extracted = new java.io.InputStreamReader(java.lang.Runtime.getRuntime().exec("git rev-parse --short HEAD").getInputStream())
-              (new java.io.BufferedReader(extracted)).readLine()
-            } catch {
-              case t: Throwable => "get git hash failed"
-            }
-          }
-        }.toString()
-      ),
-      buildInfoPackage := "global",
-      buildInfoOptions := Seq(BuildInfoOption.BuildTime),
       scalacOptions ++= Seq(
         "-Xlint", // Enable or disable specific warnings: `_' for all, `-Xlint:help' to list
         //"-Xfatal-warnings", // Fail the compilation if there are any warnings.
@@ -56,7 +41,22 @@ lazy val root =
         "-Ydelambdafy:method", // Strategy used for translating lambdas into JVM code. (inline,method) default:inline
         "-Ybackend:GenBCode", // Choice of bytecode emitter. (GenASM,GenBCode) default:GenASM
         "-target:jvm-1.8" // Target platform for object files. All JVM 1.5 targets are deprecated. (jvm-1.5,jvm-1.6,jvm-1.7,jvm-1.8)
-      )
+      ),
+      buildInfoKeys := Seq[BuildInfoKey](
+        name, version, scalaVersion, sbtVersion,
+        "gitHash" -> new java.lang.Object(){
+          override def toString(): String = {
+            try {
+              val extracted = new java.io.InputStreamReader(java.lang.Runtime.getRuntime().exec("git rev-parse --short HEAD").getInputStream())
+              (new java.io.BufferedReader(extracted)).readLine()
+            } catch {
+              case t: Throwable => "get git hash failed"
+            }
+          }
+        }.toString()
+      ),
+      buildInfoPackage := "global",
+      buildInfoOptions := Seq(BuildInfoOption.BuildTime)
     )
 
 routesGenerator := InjectedRoutesGenerator

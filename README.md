@@ -4,6 +4,16 @@ This app is a two sided, time driven job board : publish your offer / criteria, 
 
 It main purpose is to implement best practices for real-world play 2 apps.
 
+- compile time DI
+- typing everywhere
+- testing (unit, integration)
+- normalized REST API
+    - basic crud
+    - search and pagination
+    - nice error handling
+    - generated documentation
+- application status with build time, git hash & strategic resources status
+
 ## Requirements
 
 This project works with :
@@ -65,6 +75,7 @@ aglio -i docs/api.apib -o public/docs/api.html --theme-variables streak --theme-
 
 ## Interesting libs
 
+- [monix](https://monix.io/) asynchronous Programming for Scala
 - [doobie](https://github.com/tpolecat/doobie) pure functional JDBC layer for Scala
 
 ## TODO
@@ -73,20 +84,25 @@ aglio -i docs/api.apib -o public/docs/api.html --theme-variables streak --theme-
 - TDD
     - embed mongo (test port)
     - run tests at compile
+    - property based testing (https://www.scalacheck.org/)
 - i18n
+    - app text
+    - date format (display & forms)
+- great log system
 - rest api
-    - documentation (api blueprint)
     - auth token
     - rate limiting
 - user auth/admin
     - https://github.com/mohiva/play-silhouette-persistence-reactivemongo
 - living documentation (https://leanpub.com/livingdocumentation)
+
+
 - articles
     - compile time DI
         - ApplicationLoader
         - Test controllers
     - setup sbt-buildinfo (with git hash)
-    - setup reactivemong
+    - setup reactivemongo
 - talks
     - type all the things !
 
