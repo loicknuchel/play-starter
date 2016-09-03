@@ -10,6 +10,8 @@ libraryDependencies ++= Seq(
   ws,
   filters,
   "org.reactivemongo" %% "play2-reactivemongo" % "0.11.14",
+  "org.webjars" % "jquery" % "1.12.4",
+  "org.webjars.npm" % "bootstrap-sass" % "3.3.7",
   "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % Test,
   "com.github.simplyscala" %% "scalatest-embedmongo" % "0.2.2" % Test
 )
@@ -23,6 +25,7 @@ lazy val root =
   (project in file("."))
     .enablePlugins(PlayScala)
     .enablePlugins(BuildInfoPlugin)
+    .enablePlugins(SbtWeb)
     .settings(
       scalacOptions ++= Seq(
         "-Xlint", // Enable or disable specific warnings: `_' for all, `-Xlint:help' to list
@@ -58,5 +61,7 @@ lazy val root =
       buildInfoPackage := "global",
       buildInfoOptions := Seq(BuildInfoOption.BuildTime)
     )
+
+pipelineStages := Seq(uglify, digest, gzip)
 
 routesGenerator := InjectedRoutesGenerator

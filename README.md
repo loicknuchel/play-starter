@@ -78,6 +78,8 @@ aglio -i docs/api.apib -o public/docs/api.html --theme-variables streak --theme-
 - [monix](https://monix.io/) asynchronous Programming for Scala
 - [doobie](https://github.com/tpolecat/doobie) pure functional JDBC layer for Scala
 
+- [Play modules](https://www.playframework.com/documentation/2.5.x/ModuleDirectory)
+
 ## TODO
 
 - DI with macwire
@@ -90,6 +92,7 @@ aglio -i docs/api.apib -o public/docs/api.html --theme-variables streak --theme-
     - date format (display & forms)
 - great log system
 - rest api
+    - CORS
     - auth token
     - rate limiting
 - user auth/admin

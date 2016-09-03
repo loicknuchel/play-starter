@@ -1,4 +1,4 @@
-package com.flashjob.controllers
+package com.flashjob.controllers.api
 
 import com.flashjob.common.Contexts
 import com.flashjob.domain.models.JobOffer
@@ -8,8 +8,8 @@ import global.models.Page
 import play.api.mvc.Controller
 
 case class JobOffers(ctx: Contexts, jobOfferRepository: JobOfferRepository) extends Controller {
-  import ctx._
   import com.flashjob.common.Contexts.ctrlToEC
+  import ctx._
 
   def find(page: Int, pageSize: Int, q: Option[String], sort: Option[String], include: Option[String]) =
     ApiHelper.findAction(jobOfferRepository)(Page.Index(page), Page.Size(pageSize), q, sort, include)
