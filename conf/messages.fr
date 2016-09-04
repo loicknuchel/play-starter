@@ -1,5 +1,23 @@
 app.name=Flash Job
 
+date=dd/MM/yyyy
+date.l=d/M/yyyy
+date.L=dd/MM/yyyy
+date.ll=d MMM yyyy
+date.LL=d MMMM yyyy
+date.lll=EE d MMM yyyy
+date.LLL=EEEE d MMMM yyyy
+time=HH:mm
+time.t=H:mm
+time.T=HH:mm
+time.tt=H:mm:ss
+time.TT=HH:mm:ss
+datetime=dd/MM/yyyy HH:mm
+datetime.lt=d/M/yyyy H:mm
+datetime.LT=dd/MM/yyyy HH:mm
+datetime.ltt=d/M/yyyy H:mm:ss
+datetime.LTT=dd/MM/yyyy HH:mm:ss
+
 common.lang=Langues
 common.lang.en=English
 common.lang.fr=Français
@@ -16,4 +34,9 @@ pages.index.alert.p2=N'hésite pas à contribuer ;)
 pages.index.header=Template bootstrap de démarrage
 pages.index.p1=Utilise ce document comme un démarrage rapide pour un nouveau projet.
 pages.index.p2=Il y a tout le nécessaire de manière aussi minimale que possible.
-
+pages.index.sample.i18n=L''internationalization n''est pas top dans Play :(
+pages.index.sample.page.0=Il n''y a aucune page
+pages.index.sample.page.1=Il y a 1 page
+pages.index.sample.page.n=Il y a {0} pages
+pages.index.sample.twitt=Suivez <a href="https://twitter.com/{0}" target="_blank">{0}</a> sur Twitter
+pages.index.sample.date=On est le {0} et il est {1}

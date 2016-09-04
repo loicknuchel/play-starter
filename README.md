@@ -88,8 +88,9 @@ aglio -i docs/api.apib -o public/docs/api.html --theme-variables streak --theme-
     - run tests at compile
     - property based testing (https://www.scalacheck.org/)
 - i18n
-    - app text
     - date format (display & forms)
+    - https://github.com/Kanaka-io/e2e
+    - https://github.com/tegonal/play-messagescompiler
 - great log system
 - rest api
     - CORS
@@ -97,6 +98,10 @@ aglio -i docs/api.apib -o public/docs/api.html --theme-variables streak --theme-
     - rate limiting
 - user auth/admin
     - https://github.com/mohiva/play-silhouette-persistence-reactivemongo
+- helpers
+    - bootstrap forms (inspiration from https://github.com/adrianhurt/play-bootstrap)
+    - select2
+    - format : dates
 - living documentation (https://leanpub.com/livingdocumentation)
 
 

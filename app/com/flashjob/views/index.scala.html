@@ -1,4 +1,6 @@
+@import global.helpers.I18nHelper._
 @import com.flashjob.views.html.partials._
+@import org.joda.time.DateTime
 @()(implicit flash: Flash, req: RequestHeader, message: MessagesApi, lang: Lang, langs: Seq[Lang])
 @main(message("pages.index.title")) {
     @header("home")
@@ -13,6 +15,36 @@
         <div class="starter-template">
             <h1>@message("pages.index.header")</h1>
             <p class="lead">@message("pages.index.p1")<br>@message("pages.index.p2")</p>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading"><h3 class="panel-title">Internationalization samples</h3></div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul>
+                            <li>@message("pages.index.sample.i18n")</li>
+                            <li>@messagePlural("pages.index.sample.page", 0)</li>
+                            <li>@messagePlural("pages.index.sample.page", 1)</li>
+                            <li>@messagePlural("pages.index.sample.page", 3)</li>
+                            <li>@message("pages.index.sample.date", date(new DateTime()), time(new DateTime()))</li>
+                            <li>@Html(message("pages.index.sample.twitt", "conferencelist_"))</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul>
+                            @List("l", "L", "ll", "LL", "lll", "LLL").map { suffix =>
+                                <li>date.@suffix : @date(new DateTime(), suffix)</li>
+                            }
+                            @List("t", "T", "tt", "TT").map { suffix =>
+                                <li>time.@suffix : @time(new DateTime(), suffix)</li>
+                            }
+                            @List("lt", "LT", "ltt", "LTT").map { suffix =>
+                                <li>datetime.@suffix : @datetime(new DateTime(), suffix)</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 }
